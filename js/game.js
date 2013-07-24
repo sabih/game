@@ -1,155 +1,146 @@
 /**
+ * This file contains all the functions for game
+ *
+ * @package		game
+ * @filename	game.js
+ */
+
+// global variable
+var g_total_value = [];
+
+/**
  * @method : submitUserInfo()
  * @return : void
  * @desc : This function sets username
  */
 function submitUserInfo() {
 
-	//var username = document.getElementById("username").value;
 	var username = $("#username").val();
-	console.log(username);
 	
 	// Hide screen1
 	$("#dv_screen1").hide();
-	//var screen1 = document.getElementById("dv_screen1");
-	//screen1.style.display = 'none';
 	
-	// Display screen2	
+	// Show screen2	
 	$("#dv_screen2").show();
-	//var screen2 = document.getElementById("dv_screen2");
-	//screen2.style.display = 'block';
 	
-	random_color();
+	randomColor();
 	
 	// Display Username
-	//document.getElementById("lbl_username").innerHTML = "Welcome : "+username;
-	$("#username").html("Welcome : "+username);
+	$("#lbl_username").html("Welcome : "+username);
 	
 }
 
-
 /**
- * @method : random_color()
+ * @method : randomColor()
  * @return : void
- * @desc : This function provides random color to the table cells
+ * @desc : This function provides random color to the div box
  */
-function random_color() {
-	var arr = ['btn-primary','btn-info','btn-warning','btn-danger','black','light_red','brown','green','grey','blue','olive','wax'];
-	var idx = Math.floor(Math.random() * arr.length);
-	$(".gamebox").addClass(arr[idx]);
+function randomColor() {
+
+	var color_array = colorClass();
+	var idx = Math.floor(Math.random() * color_array.length);
+	$(".gamebox").addClass(color_array[idx]);
+
 }
 
 /**
- * @method : slide_it()
- * @param : elem string
- * @param : direction string
- * @param : distance int
- * @param : slideDuration int
- * @return : void
- * @desc : This function slides the screen
+ * @method : colorClass()
+ * @return : array
+ * @desc : This function returns color class as array
  */
-function slide_it(elem, direction, distance, slideDuration){
+function colorClass() {
 
-    var elmt = document.getElementById(elem),
-        i=0, step = distance / (slideDuration*20),
-        stepper = setInterval(function() {
-            i = Math.min(distance,i+step);
-            elmt.style.left = i+'px';
-            if( i == distance) clearInterval(stepper);
-        },50);
+	var color_array = ['btn-primary','btn-info','btn-warning','btn-danger','black','light_red','brown','green','grey','blue','olive','wax'];
+	return color_array;
+
 }
 
 /**
- * @method : change_color()
+ * @method : changeColor()
  * @param : element string
  * @return : void
  * @desc : This function change the color of <td> on click
  */
-function change_color(element) {
-
-	if (element.className == 'td_change_color td_cursor') {
+function changeColor(element) {
+	
+	var color_array = colorClass();
+	var split_class = (element.className).split(" ");
+	
+	// Call indexOfIE() to make indexOf() workable for IE
+	indexOfIE();
+	
+	if (split_class.indexOf('change_color')>-1) {
 		alert("This square is already occupied. Please select other square.");
 		return false;
-		/*element.className = "";
-		element.className = "td_cursor";
-		return false;*/
 	}
-	//element.style.backgroundColor = 'lightgreen';
-	element.className = "td_change_color td_cursor";
 	
-	var count = document.getElementById("spn_value").innerHTML;
+	var idx;
+	var color_class;
 	
-	count = parseFloat(count) - 1;
-	document.getElementById("spn_value").innerHTML = count;
-	
-	//get value of the td
-	var new_value = element.innerHTML;
-
-	//get the value of hidden field
-	var prev_value = document.getElementById("hid_store_value").value;
-	
-	//add new <td> value to previous value
-	var total_value = prev_value + "," + new_value;
-	
-	//set hidden field value null
-	document.getElementById("hid_store_value").value = "";
-	
-	//set the hidden field value
-	document.getElementById("hid_store_value").value = total_value;
-	
-	if (count == 0) {
-	
-		get_result();		
+	for (idx=0;idx<color_array.length;idx++) {
+		color_class = color_array[idx];
 		
+		if(split_class.indexOf(color_class)>-1) {
+			$(element).removeClass(color_class).addClass('change_color');
+		}
+	}
+	
+	var count = $("#spn_value").html();	
+	count = parseFloat(count) - 1;
+	$("#spn_value").html(count);
+
+	//get value of the div box
+	var new_value = $(element).html();
+
+	// Push the values in g_total_value array
+	g_total_value.push(new_value);
+	
+	if (count == 0) {	
+		getResult();		
 	}
 	
 }
 
 /**
- * @method : get_result()
+ * @method : getResult()
  * @return : void
  * @desc : This function open new screen to display result
  */
-function get_result() {
+function getResult() {
 
 	// Hide screen2
-	var screen2 = document.getElementById("dv_screen2");
-	screen2.style.display = 'none';
+	$("#dv_screen2").hide();
 	
-	// Display screen3
-	var screen3 = document.getElementById("dv_screen3");
-	screen3.style.display = 'block';
-	
-	var answer = document.getElementById("hid_store_value").value;
-	
-	// Remove first comma
-	answer = answer.slice(1);
+	// Show screen3
+	$("#dv_screen3").show();
 	
 	// Split a string into an array
-	var array = new Array();
-	array = answer.split(",");
+	var result = [];
+	
+	result = g_total_value;
 	
 	// Convert to numbers
-	for(var i=0; i<array.length; i++) { array[i] = +array[i]; } 
+	for(var i=0; i<result.length; i++) { result[i] = +result[i]; } 
 	
-	// Call index_of_IE() to make indexOf() workable for IE
-	index_of_IE();		
+	// Call indexOfIE() to make indexOf() workable for IE
+	indexOfIE();		
 	
-	if(array.indexOf(1)>-1 && array.indexOf(5)>-1 && array.indexOf(9)>-1){
+	if(result.indexOf(1)>-1 && result.indexOf(5)>-1 && result.indexOf(9)>-1){
 		
-		document.getElementById("lbl_result").innerHTML = "Wow, Correct Selection!";
+		$("#lbl_result").html("Wow, Correct Selection!");
 		
-	} else if(array.indexOf(3)>-1 && array.indexOf(5)>-1 && array.indexOf(7)>-1){
+	} else if(result.indexOf(3)>-1 && result.indexOf(5)>-1 && result.indexOf(7)>-1){
 		
-		document.getElementById("lbl_result").innerHTML = "Wow, Correct Selection!";
+		$("#lbl_result").html("Wow, Correct Selection!");
 	
 	} else {
 	
-		document.getElementById("lbl_result").innerHTML = "Sorry, In-correct!";
+		$("#lbl_result").html("Sorry, In-correct!");
 	
 	}
 	
-	document.getElementById("hid_store_value").value = "";
+	//Emmpty the array
+	g_total_value = [];
 	
 }
 
@@ -158,31 +149,65 @@ function get_result() {
  * @return : void
  * @desc : This function open game screen and hides result screen
  */
-function play_again() {
+function playAgain() {
 	
 	// Hide screen3
-	var screen3 = document.getElementById("dv_screen3");
-	screen3.style.display = 'none';
+	$("#dv_screen3").hide();
 	
-	// Display screen2
-	var screen2 = document.getElementById("dv_screen2");
-	screen2.style.display = 'block';
+	// Show screen2
+	$("#dv_screen2").show();
 	
 	//slide_it('dv_screen2','left',685,1);
 	
-	var count = 3;
-	document.getElementById("spn_value").innerHTML = count;
+	$("#spn_value").html(3);
 	
-	random_color();
+	removeClass();	
+	
+	randomColor();
 	
 }
 
 /**
- * @method : index_of_IE()
+ * @method : removeClass()
+ * @return : void
+ * @desc : This function removes class "change_color" and color class
+ */
+function removeClass() {
+	
+	// Call indexOfIE() to make indexOf() workable for IE
+	indexOfIE();
+	
+	var box;
+	var split_class;	
+	var idx;
+	var color_class;
+	var color_array = colorClass();
+	
+	for (i=0;i<9;i++) {
+		box = $(".gamebox")[i];
+		// Remove class "change_color" from box
+		$(box).removeClass("change_color");
+		
+		split_class = (box.className).split(" ");	
+	
+		for (idx=0;idx<color_array.length;idx++) {
+			color_class = color_array[idx];
+			
+			if(split_class.indexOf(color_class)>-1) {
+				// Remove "previous random color" class from box
+				$(box).removeClass(color_class);
+			}
+		}
+	}
+	
+}
+
+/**
+ * @method : indexOfIE()
  * @return : void
  * @desc : This function makes indexOf workable for IE
  */
-function index_of_IE() {
+function indexOfIE() {
 
 	// To make indexOf() workable for IE
 	if (!Array.prototype.indexOf) {		
