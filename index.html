@@ -1,6 +1,8 @@
 <!--
-/**
- * To display the screen for Username
+ * This file displays screen for Login, Game and Result
+ *
+ * @package		game
+ * @filename	index.html
  */
 -->
 
@@ -12,6 +14,7 @@
 		<!-- Bootstrap -->
 		<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
 		<link href="css/game.css" rel="stylesheet" media="screen">
+		<link href="css/box-color.css" rel="stylesheet" media="screen">
 		
 		<script type="text/javascript" src="js/game.js"></script>
 		
@@ -32,28 +35,33 @@
 		<div class="row-fluid" id="dv_screen2">
 			<div class="row-fluid">
 				<div class="span2"></div>
-				<div class="span4 text-left" id="dv_username"><label id="lbl_username"></label></div>
-				<div class="span4 text-right" id="dv_clicks">Clicks left : <span id="spn_value">3</span></div>
+				<div class="span8">
+					<div class="row-fluid no-space">
+						<div class="span6 text-left" id="dv_username"><label id="lbl_username"></label></div>
+						<div class="span1"></div>
+						<div class="span5 text-right" id="dv_clicks">Clicks left : <span id="spn_value">3</span></div>
+					</div>
+				</div>
 				<div class="span2"></div>
 			</div>
 			
-			<div class="row-fluid" id="dv_outer_table">
+			<div class="row-fluid" id="dv_outer_box">
 				<div class="span2"></div>			
-				<div class="span8" id="dv_table">
-					<div class="row-fluid no-space" id="tbl_game">				
-						<div class="span4 gamebox" onclick="change_color(this);">1</div>
-						<div class="span4 gamebox" onclick="change_color(this);">2</div>
-						<div class="span4 gamebox" onclick="change_color(this);">3</div>						
+				<div class="span8" id="dv_box">
+					<div class="row-fluid no-space" id="dv_inner_box">				
+						<div class="span4 gamebox top-left-border" onclick="changeColor(this);">1</div>
+						<div class="span4 gamebox" onclick="changeColor(this);">2</div>
+						<div class="span4 gamebox top-right-border" onclick="changeColor(this);">3</div>						
 					</div>
-					<div class="row-fluid no-space" id="tbl_game">				
-						<div class="span4 gamebox" onclick="change_color(this);">4</div>
-						<div class="span4 gamebox" onclick="change_color(this);">5</div>
-						<div class="span4 gamebox" onclick="change_color(this);">6</div>						
+					<div class="row-fluid no-space" id="dv_inner_box">				
+						<div class="span4 gamebox" onclick="changeColor(this);">4</div>
+						<div class="span4 gamebox" onclick="changeColor(this);">5</div>
+						<div class="span4 gamebox" onclick="changeColor(this);">6</div>						
 					</div>
-					<div class="row-fluid no-space" id="tbl_game">				
-						<div class="span4 gamebox" onclick="change_color(this);">7</div>
-						<div class="span4 gamebox" onclick="change_color(this);">8</div>
-						<div class="span4 gamebox" onclick="change_color(this);">9</div>						
+					<div class="row-fluid no-space" id="dv_inner_box">				
+						<div class="span4 gamebox bottom-left-border" onclick="changeColor(this);">7</div>
+						<div class="span4 gamebox" onclick="changeColor(this);">8</div>
+						<div class="span4 gamebox bottom-right-border" onclick="changeColor(this);">9</div>						
 					</div>					
 				</div>
 				<div class="span2"></div>
@@ -67,7 +75,7 @@
 			<div class="span8 table-bordered" id="dv_login">
 				<h1 id="lbl_result"></h1>
 				<br /><br />
-				<input type="button" class="btn btn-large btn-primary" value="Play Again" onclick="play_again();"></input>
+				<input type="button" class="btn btn-large btn-primary" value="Play Again" onclick="playAgain();"></input>
 			</div>
 			<div class="span2"></div>
 		</div>
