@@ -7,6 +7,52 @@
 
 // global variable
 var g_total_value = [];
+var SlideWidth = 1200;
+var SlideSpeed = 1000;
+
+/**
+ * @method : CurrentMargin()
+ * @return : int
+ * @desc : This function creates margin for slide
+ */
+function CurrentMargin() {
+	// get current margin of slider
+	var currentMargin = $("#slider-wrapper").css("margin-left");
+
+	// first page load, margin will be auto, we need to change this to 0
+	if (currentMargin == "auto") {
+		currentMargin = 0;
+	}
+
+	// return the current margin to the function as an integer
+	return parseInt(currentMargin);
+} 
+
+/**
+ * @method : NextSlide()
+ * @return : void
+ * @desc : This function brings next slide
+ */
+function NextSlide() {
+	// get the current margin and subtract the slide width
+	var newMargin = CurrentMargin() - SlideWidth;
+
+	// slide the wrapper to the left to show the next panel at the set speed. Then set the nav display on completion of animation.
+	$("#slider-wrapper").animate({ marginLeft: newMargin }, SlideSpeed );
+}
+
+/**
+ * @method : PreviousSlide()
+ * @return : void
+ * @desc : This function brings previous slide
+ */
+function PreviousSlide() {
+	// get the current margin and subtract the slide width
+	var newMargin = CurrentMargin() + SlideWidth;
+
+	// slide the wrapper to the right to show the previous panel at the set speed. Then set the nav display on completion of animation.
+	$("#slider-wrapper").animate({ marginLeft: newMargin }, SlideSpeed );
+} 
 
 /**
  * @method : submitUserInfo()
@@ -18,10 +64,12 @@ function submitUserInfo() {
 	var username = $("#username").val();
 	
 	// Hide screen1
-	$("#dv_screen1").hide();
+	//$("#dv_screen1").hide();
 	
 	// Show screen2	
-	$("#dv_screen2").show();
+	//$("#dv_screen2").show();
+	
+	NextSlide();
 	
 	randomColor();
 	
@@ -109,11 +157,11 @@ function changeColor(element) {
 function getResult() {
 
 	// Hide screen2
-	$("#dv_screen2").hide();
+	//$("#dv_screen2").hide();
 	
 	// Show screen3
-	$("#dv_screen3").show();
-	
+	//$("#dv_screen3").show();
+	NextSlide();
 	// Split a string into an array
 	var result = [];
 	
@@ -152,11 +200,11 @@ function getResult() {
 function playAgain() {
 	
 	// Hide screen3
-	$("#dv_screen3").hide();
+	//$("#dv_screen3").hide();
 	
 	// Show screen2
-	$("#dv_screen2").show();
-	
+	//$("#dv_screen2").show();
+	PreviousSlide();
 	//slide_it('dv_screen2','left',685,1);
 	
 	$("#spn_value").html(3);
