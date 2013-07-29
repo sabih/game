@@ -37,7 +37,7 @@ function NextSlide() {
 	// get the current margin and subtract the slide width
 	var newMargin = CurrentMargin() - SlideWidth;
 
-	// slide the wrapper to the left to show the next panel at the set speed. Then set the nav display on completion of animation.
+	// slide the wrapper to the left to show the next panel at the set speed.
 	$("#slider-wrapper").animate({ marginLeft: newMargin }, SlideSpeed );
 }
 
@@ -50,7 +50,7 @@ function PreviousSlide() {
 	// get the current margin and subtract the slide width
 	var newMargin = CurrentMargin() + SlideWidth;
 
-	// slide the wrapper to the right to show the previous panel at the set speed. Then set the nav display on completion of animation.
+	// slide the wrapper to the right to show the previous panel at the set speed.
 	$("#slider-wrapper").animate({ marginLeft: newMargin }, SlideSpeed );
 } 
 
