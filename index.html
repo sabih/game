@@ -37,8 +37,7 @@
 						<div class="span2"></div>
 						<div class="span8 table-bordered" id="dv_inner_screen">
 							<h1>Your name please:</h1><br />
-							<input type="text" class="span8" class="input" id="username" />
-							<!--<input type="button" class="btn btn-large btn-primary" value="Save" onclick="submitUserInfo();"></input>-->
+							<input type="text" class="span8" class="input" id="username" autocomplete="off" />
 						</div>
 						<div class="span2"></div>
 					</div>
@@ -90,17 +89,17 @@
 						<div class="span8 table-bordered" id="dv_inner_screen">
 							<h1 id="lbl_result">Please select 3 boxes!</h1>
 							<br /><br />
-							<!--<input type="button" class="btn btn-large btn-primary" value="Play Again" onclick="playAgain();"></input>-->
+							<input type="button" class="btn btn-large btn-primary" value="Quit Game" onclick="quitGame();"></input>
 						</div>
 						<div class="span2"></div>
 					</div>
 				</div>				
 				
 				<!-- Controls -->
-				<a class="left carousel-control" href="#carousel" data-slide="prev" onclick="checkLeftScreen();">&#8249;
+				<a class="left carousel-control" href="#carousel" data-slide="prev" onclick="checkScreen();">&#8249;
 					<span class="icon-prev"></span>
 				</a>
-				<a class="right carousel-control" href="#carousel" data-slide="next" onclick="checkRightScreen();">&#8250;
+				<a class="right carousel-control" href="#carousel" data-slide="next" onclick="checkScreen();">&#8250;
 					<span class="icon-next"></span>
 				</a>
 			</div>

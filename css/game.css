@@ -28,20 +28,9 @@ input[type=text] {
     font-size: 25px !important;
 }
 
-/* CSS for Screen1 end */
-
-.no-space [class*="span"] {
-    margin-left: 0;
-}
-
-.no-space {
-    margin-left:0;
-}
-
 /* CSS for Screen 2 */
 
 #dv_screen2 {
-	/*display: none;*/
 	height: 100%;
 }
 
@@ -83,18 +72,27 @@ input[type=text] {
 
 /* CSS for Screen3 */
 #dv_screen3 {
-	/*display: none;*/
 	height: 100%;
 }
 
-#carousel, .carousel-inner, .item {
-	height: 100%;
-}
+/* Overall CSS */
 
 .left {
 	display: none;
 }
 
+.no-space [class*="span"] {
+    margin-left: 0;
+}
+
+.no-space {
+    margin-left:0;
+}
+
 .carousel-control {
 	top: 45%;
+}
+
+#carousel, .carousel-inner, .item {
+	height: 100%;
 }

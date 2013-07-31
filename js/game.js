@@ -9,45 +9,28 @@
 var g_total_value = [];
 
 /**
- * @method : checkLeftScreen()
- * @return : void
- * @desc : This function changes left screen depending on the current screen
- */
-function checkLeftScreen() {
-
-	// Hide left icon in left screen ie, "dv_screen1" if current screen is "dv_screen2"
-	if($('.active').children().attr('id') == 'dv_screen2') {
-		$(".left").hide();
-	}
-	
-	// Show right icon in left screen ie, "dv_screen2" if current screen is "dv_screen3"
-	// On left click call playAgain() function
-	if($('.active').children().attr('id') == 'dv_screen3') {
-		playAgain();
-		$(".right").show();
-	}
-	
-}
-
-/**
- * @method : checkRightScreen()
+ * @method : checkScreen()
  * @return : void
  * @desc : This function changes right screen depending on the current screen
  */
-function checkRightScreen() {
+function checkScreen() {
 
-	// Show left icon in right screen ie, "dv_screen2" if current screen is "dv_screen1"
-	// On right click call submitUserInfo() and playAgain() function
-	if($('.active').children().attr('id') == 'dv_screen1') {
-		submitUserInfo();
-		playAgain();
-		$(".left").show();
-	}
+	// Show left and right icon
+	$('.carousel-inner').children('.carousel-control').show();
 	
-	// Hide right icon in right screen ie, "dv_screen3" if current screen is "dv_screen2"
-	if($('.active').children().attr('id') == 'dv_screen2') {
-		$(".right").hide();
-	}
+	$('#carousel').on('slid', '', function() {
+		if($('.carousel-inner .item:first').hasClass('active')) {
+			// Hide left icon if this is first screen
+			$('.carousel-inner').children('.left.carousel-control').hide();
+		} else if($('.carousel-inner .item:last').hasClass('active')) {
+			// Hide right icon if this is last screen
+			$('.carousel-inner').children('.right.carousel-control').hide();
+		} else {
+			// Call submitUserInfo() and playAgain() function
+			submitUserInfo();
+			playAgain();
+		}
+	});
 	
 }
 
@@ -147,6 +130,8 @@ function changeColor(element) {
 	
 	//If count = 0, then call getResult() function
 	if (count == 0) {
+		// Slide to next screen if 3rd box is clicked
+		$('#carousel').carousel('next');
 		getResult();		
 	}
 	
@@ -239,6 +224,15 @@ function removeClass() {
 		}
 	}
 	
+}
+
+/**
+ * @method : quitGame()
+ * @return : void
+ * @desc : This function reloads the page
+ */
+function quitGame() {
+	location.reload();
 }
 
 /**
