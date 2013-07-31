@@ -7,52 +7,49 @@
 
 // global variable
 var g_total_value = [];
-var SlideWidth = 1200;
-var SlideSpeed = 1000;
 
 /**
- * @method : CurrentMargin()
- * @return : int
- * @desc : This function creates margin for slide
- */
-function CurrentMargin() {
-	// get current margin of slider
-	var currentMargin = $("#slider-wrapper").css("margin-left");
-
-	// first page load, margin will be auto, we need to change this to 0
-	if (currentMargin == "auto") {
-		currentMargin = 0;
-	}
-
-	// return the current margin to the function as an integer
-	return parseInt(currentMargin);
-} 
-
-/**
- * @method : NextSlide()
+ * @method : checkLeftScreen()
  * @return : void
- * @desc : This function brings next slide
+ * @desc : This function changes left screen depending on the current screen
  */
-function NextSlide() {
-	// get the current margin and subtract the slide width
-	var newMargin = CurrentMargin() - SlideWidth;
+function checkLeftScreen() {
 
-	// slide the wrapper to the left to show the next panel at the set speed.
-	$("#slider-wrapper").animate({ marginLeft: newMargin }, SlideSpeed );
+	// Hide left icon in left screen ie, "dv_screen1" if current screen is "dv_screen2"
+	if($('.active').children().attr('id') == 'dv_screen2') {
+		$(".left").hide();
+	}
+	
+	// Show right icon in left screen ie, "dv_screen2" if current screen is "dv_screen3"
+	// On left click call playAgain() function
+	if($('.active').children().attr('id') == 'dv_screen3') {
+		playAgain();
+		$(".right").show();
+	}
+	
 }
 
 /**
- * @method : PreviousSlide()
+ * @method : checkRightScreen()
  * @return : void
- * @desc : This function brings previous slide
+ * @desc : This function changes right screen depending on the current screen
  */
-function PreviousSlide() {
-	// get the current margin and subtract the slide width
-	var newMargin = CurrentMargin() + SlideWidth;
+function checkRightScreen() {
 
-	// slide the wrapper to the right to show the previous panel at the set speed.
-	$("#slider-wrapper").animate({ marginLeft: newMargin }, SlideSpeed );
-} 
+	// Show left icon in right screen ie, "dv_screen2" if current screen is "dv_screen1"
+	// On right click call submitUserInfo() and playAgain() function
+	if($('.active').children().attr('id') == 'dv_screen1') {
+		submitUserInfo();
+		playAgain();
+		$(".left").show();
+	}
+	
+	// Hide right icon in right screen ie, "dv_screen3" if current screen is "dv_screen2"
+	if($('.active').children().attr('id') == 'dv_screen2') {
+		$(".right").hide();
+	}
+	
+}
 
 /**
  * @method : submitUserInfo()
@@ -62,14 +59,6 @@ function PreviousSlide() {
 function submitUserInfo() {
 
 	var username = $("#username").val();
-	
-	// Hide screen1
-	//$("#dv_screen1").hide();
-	
-	// Show screen2	
-	//$("#dv_screen2").show();
-	
-	NextSlide();
 	
 	randomColor();
 	
@@ -81,7 +70,7 @@ function submitUserInfo() {
 /**
  * @method : randomColor()
  * @return : void
- * @desc : This function provides random color to the div box
+ * @desc : This function provides random color to all boxes
  */
 function randomColor() {
 
@@ -107,43 +96,57 @@ function colorClass() {
  * @method : changeColor()
  * @param : element string
  * @return : void
- * @desc : This function change the color of <td> on click
+ * @desc : This function change the color of boxes on click
  */
 function changeColor(element) {
 	
-	var color_array = colorClass();
+	// Split css classes by space from div which is clicked
 	var split_class = (element.className).split(" ");
 	
 	// Call indexOfIE() to make indexOf() workable for IE
 	indexOfIE();
 	
 	if (split_class.indexOf('change_color')>-1) {
-		alert("This square is already occupied. Please select other square.");
+		alert("This box is already occupied. Please select other box.");
 		return false;
-	}
+	}	
+	
+	// Store #spn_value in count variable
+	var count = $("#spn_value").html();
+	count = parseFloat(count) - 1;	
+	
+	var color_array;
+	
+	if (count >= 0) {
+		color_array = colorClass();
+		// Store count value in #spn_value
+		$("#spn_value").html(count);
+	} else {		
+		alert("You can select only 3 boxes.");
+	}	
 	
 	var idx;
 	var color_class;
 	
+	// To remove previous color class and add change_color class
 	for (idx=0;idx<color_array.length;idx++) {
+		// Store color_array[idx] color class in color_class
 		color_class = color_array[idx];
 		
+		// If clicked box is having color_class then remove this and add change_color class
 		if(split_class.indexOf(color_class)>-1) {
 			$(element).removeClass(color_class).addClass('change_color');
 		}
-	}
-	
-	var count = $("#spn_value").html();	
-	count = parseFloat(count) - 1;
-	$("#spn_value").html(count);
+	}	
 
 	//get value of the div box
 	var new_value = $(element).html();
 
 	// Push the values in g_total_value array
-	g_total_value.push(new_value);
+	g_total_value.push(new_value);	
 	
-	if (count == 0) {	
+	//If count = 0, then call getResult() function
+	if (count == 0) {
 		getResult();		
 	}
 	
@@ -155,13 +158,7 @@ function changeColor(element) {
  * @desc : This function open new screen to display result
  */
 function getResult() {
-
-	// Hide screen2
-	//$("#dv_screen2").hide();
 	
-	// Show screen3
-	//$("#dv_screen3").show();
-	NextSlide();
 	// Split a string into an array
 	var result = [];
 	
@@ -199,26 +196,18 @@ function getResult() {
  */
 function playAgain() {
 	
-	// Hide screen3
-	//$("#dv_screen3").hide();
-	
-	// Show screen2
-	//$("#dv_screen2").show();
-	PreviousSlide();
-	//slide_it('dv_screen2','left',685,1);
-	
-	$("#spn_value").html(3);
-	
+	// Store 3 in #spn_value
+	$("#spn_value").html(3);	
 	removeClass();	
-	
 	randomColor();
+	$("#lbl_result").html("Please select 3 boxes!");
 	
 }
 
 /**
  * @method : removeClass()
  * @return : void
- * @desc : This function removes class "change_color" and color class
+ * @desc : This function removes class "change_color" and previous random color class
  */
 function removeClass() {
 	
@@ -238,7 +227,9 @@ function removeClass() {
 		
 		split_class = (box.className).split(" ");	
 	
+		// To remove previous random color class from box
 		for (idx=0;idx<color_array.length;idx++) {
+			// Store color_array[idx] color class in color_class
 			color_class = color_array[idx];
 			
 			if(split_class.indexOf(color_class)>-1) {

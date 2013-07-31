@@ -15,10 +15,9 @@ html, body
 	height: 100%;
 }
 
-#dv_login {
+#dv_inner_screen {
 	margin-top: 1%;
-	/*margin-bottom: 1%;*/
-	padding-top: 10%;
+	padding-top: 14%;
 	height: 96%;
 	background-color: #EEEEEE;
 	text-align: center;
@@ -46,15 +45,11 @@ input[type=text] {
 	height: 100%;
 }
 
-#dv_username, #dv_clicks {
+#dv_username, #dv_clicks, #spn_value {
 	margin-top: 5px;
 }
 
 #dv_outer_box, #dv_box {
-	height: 100%;
-}
-
-#container, #slider-wrapper {
 	height: 100%;
 }
 
@@ -92,21 +87,14 @@ input[type=text] {
 	height: 100%;
 }
 
-#container
-{
-    width: 1200px;
-    overflow: hidden;
+#carousel, .carousel-inner, .item {
+	height: 100%;
 }
 
-#slider-wrapper
-{
-    width: 3600px;
+.left {
+	display: none;
 }
 
-.slide
-{
-    width: 1200px;
-    height: 200px;
-    overflow: hidden;
-    float: left;
+.carousel-control {
+	top: 45%;
 }
