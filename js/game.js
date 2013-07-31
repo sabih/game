@@ -28,6 +28,8 @@ function checkScreen() {
 		} else {
 			// Call submitUserInfo() and playAgain() function
 			submitUserInfo();
+			// If 1 or 2 box is clicked previously then empty g_total_value array
+			g_total_value = [];
 			playAgain();
 		}
 	});
@@ -132,7 +134,7 @@ function changeColor(element) {
 	if (count == 0) {
 		// Slide to next screen if 3rd box is clicked
 		$('#carousel').carousel('next');
-		getResult();		
+		getResult();
 	}
 	
 }
