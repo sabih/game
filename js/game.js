@@ -81,7 +81,7 @@ function colorClass() {
  * @method : changeColor()
  * @param : element string
  * @return : void
- * @desc : This function change the color of boxes on click
+ * @desc : This function alerts if box is already selected else call changeBoxColor()
  */
 function changeColor(element) {
 	
@@ -91,27 +91,55 @@ function changeColor(element) {
 	// Call indexOfIE() to make indexOf() workable for IE
 	indexOfIE();
 	
-	if (split_class.indexOf('change_color')>-1) {
-		alert("This box is already occupied. Please select other box.");
+	// Alert if box is already selected
+	if (split_class.indexOf('change_color')>-1) {		
+		$(".modal-title").html('Select other box');
+		$(".modal-body").html('This box is already occupied. Please select other box.');	
+		$('#modal').modal('show');		
 		return false;
 	}	
 	
 	// Store #spn_value in count variable
 	var count = $("#spn_value").html();
-	count = parseFloat(count) - 1;	
-	
-	var color_array;
+	count = parseFloat(count) - 1;
 	
 	if (count >= 0) {
-		color_array = colorClass();
 		// Store count value in #spn_value
 		$("#spn_value").html(count);
-	} else {		
-		alert("You can select only 3 boxes.");
-	}	
+		
+		// Call changeBoxColor() function to change color of the box
+		changeBoxColor(element,split_class);		
+	} else {
+		// Alert using bootstrap modal
+		$(".modal-title").html('Select only 3 boxes');
+		$(".modal-body").html('You can select only 3 boxes.');	
+		$('#modal').modal('show');
+	}		
 	
+	//If count = 0, then call getResult() function
+	if (count == 0) {
+		// Slide to next screen if 3rd box is clicked
+		$('#carousel').carousel('next');
+		getResult();
+	}
+	
+}
+
+/**
+ * @method : changeBoxColor()
+ * @param : element string
+ * @param : split_class string
+ * @return : void
+ * @desc : This function change the color of boxes on click
+ */
+function changeBoxColor(element,split_class) {
+
+	var color_array = colorClass();
 	var idx;
-	var color_class;
+	var color_class;	
+	
+	// Call indexOfIE() to make indexOf() workable for IE
+	indexOfIE();
 	
 	// To remove previous color class and add change_color class
 	for (idx=0;idx<color_array.length;idx++) {
@@ -128,17 +156,9 @@ function changeColor(element) {
 	var new_value = $(element).html();
 
 	// Push the values in g_total_value array
-	g_total_value.push(new_value);	
-	
-	//If count = 0, then call getResult() function
-	if (count == 0) {
-		// Slide to next screen if 3rd box is clicked
-		$('#carousel').carousel('next');
-		getResult();
-	}
-	
-}
+	g_total_value.push(new_value);
 
+}
 /**
  * @method : getResult()
  * @return : void
